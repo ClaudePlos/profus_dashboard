@@ -1,0 +1,38 @@
+{
+  "name": "angular2-dashboard-starter",
+  "author": "Claude Plos",
+  "version": "1.2.0",
+  "description": "Profus dashboard.",
+  "homepage": "https://github.com/ClaudePlos/profus_dashboard.git",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/ClaudePlos/profus_dashboard.git"
+  },
+  "contributors": [
+    "ClaudePlos <claude-plos@o2.pl>"
+  ],
+  "scripts": {
+    "postinstall": "npm run typings install",
+    "tsc": "tsc",
+    "tsc:w": "tsc --watch",
+    "live": "live-server --port=3000",
+    "start": "concurrent \"npm run tsc:w\" \"npm run live\" ",
+    "typings": "typings"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "angular2": "2.0.0-beta.8",
+    "systemjs": "0.19.20",
+    "es6-promise": "^3.0.2",
+    "es6-shim": "^0.33.3",
+    "reflect-metadata": "0.1.2",
+    "rxjs": "5.0.0-beta.2",
+    "zone.js": "0.5.15"
+  },
+  "devDependencies": {
+    "concurrently": "^1.0.0",
+    "live-server": "^0.9.1",
+    "typescript": "^1.7.5",
+    "typings":"^0.6.8"
+  }
+}

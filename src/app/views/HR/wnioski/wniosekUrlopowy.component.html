@@ -1,0 +1,26 @@
+ <!-- template -->
+ <dashboard-layout pageTitle="Wniosek Urlopowy">
+     <div class="wniosekUrlopowy">
+     
+     <p><span>Wnioskujący:</span> {{loginData.uzNazwa}}
+     </p> 
+       
+       <form>
+        Data od:<br>
+        <input type="date" name="dataOd">
+        <br>
+        Data do:<br>
+        <input type="date" name="dataDo">
+        <br><br>
+        <label for="text">Pracownik zastępujący:</label>
+        <br>
+        <input type="text" name="pracownikZastepujacy" value="">
+        <br><br>
+        <input type="submit" formnovalidate value="Złóż wnioskek">
+      </form>
+ 
+     </div>
+     
+ 
+      
+</dashboard-layout>

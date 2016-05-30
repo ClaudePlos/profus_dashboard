@@ -1,0 +1,34 @@
+ <!-- template -->
+<div class="login-box">
+  <div class="login-logo">
+    <b>Logo Firma</b> Login
+  </div>
+  <div class="login-box-body">
+    <p class="login-box-msg">Wpisz dane logowania</p>
+
+        <!-- On form submit, we call the Login event with the username and the password from the inputs -->
+       <form  [ngFormModel]="form"  (submit)="login($event)">
+        <fieldset>
+            <div class="form-group">
+                <input id="cntrlUsername" ngControl="username" class="form-control" #username placeholder="Użytkownik" name="username" type="text" autofocus  maxlength="20">
+                <div class="control-msgs" *ngIf="username.dirty && !username.valid && !username.pending">
+          			  <p  *ngIf="username.errors.required">Username is required.</p>
+          			</div>
+            </div>
+            <div class="form-group">
+                <input  id="cntrlPassword" ngControl="password" class="form-control" #password placeholder="Hasło" name="password" type="password" value="" maxlength="20">
+                <div class="control-msgs" *ngIf="password.dirty && !password.valid && !password.pending">
+                  <p *ngIf="password.errors.required">Password is required.</p>
+          			</div>
+            </div>
+             <button  id="cntrlsubmit" type="submit" [disabled]="!form.valid" class="btn btn-lg btn-success btn-block">Zaloguj</button>
+        </fieldset>
+       </form>
+
+
+      <a href="#">Zapomniałem hasła</a><br>
+      <a [routerLink]="['Signup']" class="text-center">Rejestracja</a>
+
+  </div>
+  <!-- /.login-box-body -->
+</div>
