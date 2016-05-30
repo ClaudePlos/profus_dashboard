@@ -1,21 +1,17 @@
 // listaPrac.component.js
-import { Component, View } from 'angular2/core';
+import { Component, View, OnInit } from 'angular2/core';
 import { Router, RouterLink, ComponentInstruction, CanActivate } from 'angular2/router';
 import { CORE_DIRECTIVES, NgIf } from 'angular2/common';
-import { DataService } from '../../../shared/services/data.service';
 import { DashboardLayoutComponent } from '../../../dashboard_layout/dashboard_layout.component';
 import { checkAuth } from '../../../auth_module/auth/check_auth';
 import { Auth, LoginDataInterface } from '../../../auth_module/auth/auth';
-// import { Worker } from '../../../models/HR/worker';
-
-export class Worker {
-  id: number;
-  name: string;
-}
+import { Worker } from '../../../models/HR/worker';
+import { HrService } from '../../../services/HR/hr.service';
+import { List } from 'immutable';
 
 @Component({
   selector: 'listaPrac',
-  providers: [DataService]
+  providers: [HrService]
 })
 
 @View({
@@ -27,23 +23,32 @@ export class Worker {
   return checkAuth(next, previous);
 })
 
-export class ListaPracComponent {
-  workers = WORKERS;
+export class ListaPracComponent implements OnInit {
+  public workers =  [{}];//Worker[];
+  error: any;
   
-  constructor(private _router: Router, private _auth: Auth) {
+  constructor(private _router: Router, private _hrService: HrService, private _auth: Auth) {
+  }
+  
+  getWorkers() {
+    //this.selectedHero = undefined;
+     /* this._hrService
+        .getWorkers()
+        .then(workers => this.workers = workers)
+        .catch(error => this.error = error); // TODO: Display error message*/
+        
+         this._hrService.getWorkers()
+        .subscribe(
+             data => this.workers = data,
+             error => alert(error),
+             () => console.log('Finished')
+         );
+
+
+  }
+  
+  ngOnInit() {
+    this.getWorkers();
   }
   
 }
-
-var WORKERS: Worker[] = [
-  { "id": 11, "name": "Mr. Nice" },
-  { "id": 12, "name": "Narco" },
-  { "id": 13, "name": "Bombasto" },
-  { "id": 14, "name": "Celeritas" },
-  { "id": 15, "name": "Magneta" },
-  { "id": 16, "name": "RubberMan" },
-  { "id": 17, "name": "Dynama" },
-  { "id": 18, "name": "Dr IQ" },
-  { "id": 19, "name": "Magma" },
-  { "id": 20, "name": "Tornado" }
-];
