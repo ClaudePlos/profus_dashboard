@@ -9,6 +9,7 @@ import { HomeComponent } from './home/home.component';
 import { P1Component } from './views/inne/p1/p1.component';
 import { WnioskiComponent } from './views/HR/wnioski.component';
 import { WniosekUrlopowyComponent } from './views/HR/wnioski/wniosekUrlopowy.component';
+import { ListaPracComponent } from './views/HR/listaPracownikow/listaPrac.component';
 
 
 @Component({
@@ -20,6 +21,7 @@ import { WniosekUrlopowyComponent } from './views/HR/wnioski/wniosekUrlopowy.com
     { path: '/home', as: 'Home', component: HomeComponent, useAsDefault: true },
     { path: '/wnioski', as: 'Wnioski', component: WnioskiComponent },
     { path: '/wniosekUrlopowy', as: 'WniosekUrlopowy', component: WniosekUrlopowyComponent },
+    { path: '/listaPrac', as: 'ListaPrac', component: ListaPracComponent },
     { path: '/p1', as: 'P1', component: P1Component },
     { path: '/login', as: 'Login', component: LoginComponent },
     { path: '/signup', as: 'Signup', component: SignupComponent },
@@ -33,3 +35,6 @@ export class AppComponent {
 
 
 }
+
+
+

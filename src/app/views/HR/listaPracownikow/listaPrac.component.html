@@ -1,0 +1,14 @@
+ <!-- template -->
+ <dashboard-layout pageTitle="ListaPrac">
+     <div class="listaPrac">
+
+     Test Lista Prac
+
+     <ul class="workers">
+      <li *ngFor="#worker of workers">
+        <span class="badge">{{worker.id}}</span> {{worker.name}}
+      </li>
+    </ul>
+
+     </div>
+</dashboard-layout>

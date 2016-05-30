@@ -23,6 +23,7 @@ export class DashboardLayoutComponent {
     public pageTitle: String
     public pageSubtitle: String
 
+
     constructor(private _router: Router, private _auth: Auth) {
         this.loginData = this._auth.loginData;
         this.loggedIn = this._auth.loggedIn;
@@ -34,3 +35,5 @@ export class DashboardLayoutComponent {
     }
 
 }
+
+
