@@ -25,25 +25,36 @@ import { List } from 'immutable';
 
 export class ListaPracComponent implements OnInit {
   public workers =  [{}];//Worker[];
+  public worker : Worker;
   error: any;
+  public loginData: LoginDataInterface
   
   constructor(private _router: Router, private _hrService: HrService, private _auth: Auth) {
+     this.loginData = this._auth.loginData;
   }
   
   getWorkers() {
     //this.selectedHero = undefined;
      /* this._hrService
         .getWorkers()
-        .then(workers => this.workers = workers)
+        .then(workers => this.workers = workers) 
         .catch(error => this.error = error); // TODO: Display error message*/
         
-         this._hrService.getWorkers()
-        .subscribe(
-             data => this.workers = data,
-             error => alert(error),
-             () => console.log('Finished')
-         );
+        // this._hrService.getWorkersForUser( this.loginData.prcId )
+         
+          this._hrService.getWorkersForUser( this.loginData.uzId )
+            .subscribe((response) => {
 
+                this.worker = new Worker();
+                this.worker.prcId = response.prcId;
+                this.worker.prcNazwisko = response.prcNazwisko;
+
+                this.workers.push(this.worker);
+                // and then we redirect the user to the home
+                //this._router.navigate(['\Home']);
+            });
+         
+    
 
   }
   

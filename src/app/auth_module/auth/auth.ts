@@ -1,6 +1,8 @@
 export interface LoginDataInterface {
     token?: string;
-    user_id?: number
+    user_id?: number;
+    prcId?: number;
+    uzId?: number;
 }
 
 export class Auth {
