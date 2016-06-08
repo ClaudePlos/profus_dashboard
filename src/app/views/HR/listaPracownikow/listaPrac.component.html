@@ -1,8 +1,16 @@
  <!-- template -->
  <dashboard-layout pageTitle="ListaPrac">
+
+     <div class="form-group">
+         <label>Wybierz obiekt:</label>
+         <select class="form-control" required>
+             <option *ngFor="#s of skUseraList" [value]="s">{{s.skKod}}</option>
+         </select>
+     </div>
+
      <div class="listaPrac">
 
-     Test Lista Prac
+     Test Lista Prac <br>
 
      <ul class="workers">
       <li *ngFor="#worker of workers">

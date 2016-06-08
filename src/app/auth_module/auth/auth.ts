@@ -1,3 +1,5 @@
+import { NuprUprawnienia } from '../../models/nupr/NuprUprawnienia';
+
 export interface LoginDataInterface {
     token?: string;
     user_id?: number;
@@ -8,6 +10,7 @@ export interface LoginDataInterface {
 export class Auth {
     public loggedIn: Boolean
     public loginData: LoginDataInterface
+    public uprawnieniaUseraList: NuprUprawnienia[] =  [];
 
     constructor() {
         this.loggedIn = false;
@@ -22,6 +25,11 @@ export class Auth {
         console.log('login()');
     }
 
+    dodajUprawnienie( uprawnienia: NuprUprawnienia[]) {
+        this.uprawnieniaUseraList = uprawnienia;
+        localStorage.setItem('a2authUprawnieniaUseraList', JSON.stringify(uprawnienia));
+    }
+
     loginFromSession() {
         // load from session
         if (localStorage.getItem("a2authLoginData") !== null && this.loggedIn === false) {
@@ -29,6 +37,9 @@ export class Auth {
             var a2authLoginData = JSON.parse(localStorage.getItem("a2authLoginData"));
             console.log(a2authLoginData);
             this.login(a2authLoginData);
+
+            var a2authUprawnieniaUseraList = JSON.parse(localStorage.getItem("a2authUprawnieniaUseraList"));
+            this.dodajUprawnienie(a2authUprawnieniaUseraList);
         }
     }
 

@@ -32,7 +32,6 @@ export class LoginComponent {
     username: Control;
     password: Control;
     private _request;
-    public uprawnieniaUseraList =  [{}];
 
     constructor(private _router: Router, private _dataService: DataService, private _auth: Auth, private _formBuilder: FormBuilder, public _http: Http) {
         this.username = new Control("", Validators.compose([Validators.required]));
@@ -40,7 +39,7 @@ export class LoginComponent {
 
         this.form = _formBuilder.group({
             username: this.username,
-            password: this.password,
+            password: this.password
         });
     }
 
@@ -81,9 +80,22 @@ export class LoginComponent {
           //localStorage.setItem('jwt', response.json().uzNazwa); // response.json().id_token TODO po co to jest
           this._auth.login(response.json());
           this.getUprawnieniaUseraZalogowanego( response.json().uzId ).subscribe((response) => {
-                  for (var i in response.warosci) {
-                      console.log( i );
+                 // console.log( response );
+                  let uprawnieniaUseraList: NuprUprawnienia[] =  [];
+                  for (var i in response) {
+                      let uprawnienie: NuprUprawnienia = new NuprUprawnienia();
+                      uprawnienie.uprawnienieDo = response[i].grupaSk;
+                      uprawnienie.uzId = response[i].uzId;
+                      uprawnienie.skId = response[i].skId;
+                      uprawnieniaUseraList.push(uprawnienie);
+
+                      /*this._auth.uprawnieniaUseraList.push(new NuprUprawnienia());
+                      this._auth.uprawnieniaUseraList[i].uprawnienieDo = response[i].grupaSk;
+                      this._auth.uprawnieniaUseraList[i].uzId = response[i].uzId;
+                      this._auth.uprawnieniaUseraList[i].skId = response[i].skId;*/
+                     // console.log( uprawnienie.skId );
                   }
+              this._auth.dodajUprawnienie( uprawnieniaUseraList );
           });
           this._router.navigate(['\Home']);//this._router.parent.navigateByUrl('/home');
         },
