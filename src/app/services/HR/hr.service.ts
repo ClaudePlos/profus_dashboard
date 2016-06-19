@@ -1,8 +1,8 @@
 import { Injectable } from 'angular2/core';
-import { Http, Response, Headers, Request } from 'angular2/http';
+import { Http, Response, Headers, Request, URLSearchParams } from 'angular2/http';
 import { Observable } from 'rxjs/Observable';
 import { Config } from '../../config/config';
-import { Worker } from '../../models/HR/worker';
+
 import { LoginComponent } from '../../auth_module/login/login.component';
 import { contentHeaders } from '../../common/headers';
 import 'rxjs/add/observable/throw';
@@ -11,11 +11,15 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';  // debug
 import 'rxjs/add/operator/catch';
 
+//models:
+import { Worker } from '../../models/HR/worker';
+import { StanowiskoKosztow } from '../../models/css/stanowiskoKosztow';
+
 
 @Injectable()
 export class HrService {
     
-    private heroesUrl = 'http://localhost:8080/inapTestRest/rs';  // URL to web api
+    private mainUrl = 'http://localhost:8080/inapTestRest/rs';  // URL to web api
     private listWorkersUser = '/pracownicy/listPracUzytkownika/';
     
     constructor(private _http: Http, private _config: Config) { }
@@ -25,7 +29,7 @@ export class HrService {
                .toPromise()
                .then(response => response.json().data)
                .catch(this.handleError);*/
-          return this._http.get(this.heroesUrl + '/pracownicy')
+          return this._http.get(this.mainUrl + '/pracownicy')
           .map(res => res.json());
    }
    
@@ -41,6 +45,28 @@ export class HrService {
        }
 
    private _request;
+
+   getWorkersForSk( sk : StanowiskoKosztow ) {
+
+       let params: URLSearchParams = new URLSearchParams();
+       params.set('skId', sk.skId.toString() );
+       params.set('skKod', sk.skKod );
+
+
+       this._request = new Request({
+           method: "GET",
+           // change url to "./data/data.junk" to generate an error
+           url: this.mainUrl + '/pracownicy/listPracDlaSK',
+           search: params
+       });
+
+       return this._http.request(this._request)
+           // modify file data.json to contain invalid JSON to have .json() raise an error
+           .map(res => res.json())  // could raise an error if invalid JSON
+           .do(data => console.log('server data:', data))  // debug
+           .catch(this._serverError);
+
+   }
    
    
    getWorkersForUser( uzId : number ) {
@@ -65,7 +91,7 @@ export class HrService {
        this._request = new Request({
            method: "GET",
            // change url to "./data/data.junk" to generate an error
-           url: this.heroesUrl + this.listWorkersUser
+           url: this.mainUrl + this.listWorkersUser
        });
 
        return this._http.request(this._request)
@@ -94,7 +120,7 @@ export class HrService {
         'Content-Type': 'application/json'});
 
     return this._http
-                .post(this.heroesUrl, JSON.stringify(worker), {headers: headers})
+                .post(this.mainUrl, JSON.stringify(worker), {headers: headers})
                 .toPromise()
                 .then(res => res.json().data)
                 .catch(this.handleError);

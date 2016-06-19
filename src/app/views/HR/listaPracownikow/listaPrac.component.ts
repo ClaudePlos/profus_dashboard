@@ -6,10 +6,10 @@ import { DashboardLayoutComponent } from '../../../dashboard_layout/dashboard_la
 import { checkAuth } from '../../../auth_module/auth/check_auth';
 import { Auth, LoginDataInterface } from '../../../auth_module/auth/auth';
 import { List } from 'immutable';
-
+//services:
 import { HrService } from '../../../services/HR/hr.service';
 import { CssService } from '../../../services/css/css.service';
-
+///models:
 import { Worker } from '../../../models/HR/worker';
 import { NuprUprawnienia } from '../../../models/nupr/NuprUprawnienia';
 import { StanowiskoKosztow } from '../../../models/css/stanowiskoKosztow';
@@ -30,12 +30,13 @@ import { StanowiskoKosztow } from '../../../models/css/stanowiskoKosztow';
 
 export class ListaPracComponent implements OnInit {
   public workers =  [{}];//Worker[];
-  public worker : Worker;
   error: any;
   public loginData: LoginDataInterface
   public uprawnieniaUseraList: NuprUprawnienia[] =  [];
   public skUseraList: StanowiskoKosztow[] =  [];
+  public selectedSK: StanowiskoKosztow;
   
+
   constructor(private _router: Router, private _hrService: HrService, private _cssService: CssService, private _auth: Auth) {
      this.loginData = this._auth.loginData;
      this.uprawnieniaUseraList = this._auth.uprawnieniaUseraList;
@@ -63,34 +64,42 @@ export class ListaPracComponent implements OnInit {
   }
 
 
+    onChangeSK(selectedSkKod: String)
+    {
+        this.selectedSK = this.skUseraList.find( (obj:StanowiskoKosztow) => obj.skKod === selectedSkKod )
+        console.log(this.selectedSK.skKod);
+        this.getWorkersForSK(this.selectedSK);
+    }
 
-  getWorkers() {
-    //this.selectedHero = undefined;
-     /* this._hrService
-        .getWorkers()
-        .then(workers => this.workers = workers) 
-        .catch(error => this.error = error); // TODO: Display error message*/
-        
-        // this._hrService.getWorkersForUser( this.loginData.prcId )
-         
-          this._hrService.getWorkersForUser( this.loginData.uzId )
+    getWorkersForSK( sk: StanowiskoKosztow ) {
+
+          this._hrService.getWorkersForSk( sk )
             .subscribe((response) => {
 
-                this.worker = new Worker();
-                this.worker.prcId = response.prcId;
-                this.worker.prcNazwisko = response.prcNazwisko;
+            this.workers.length = 0
 
-                this.workers.push(this.worker);
+            for (var i in response) {
+                let worker = new Worker();
+                worker.prcId = response[i].prcId;
+                worker.prcNazwisko = response[i].prcNazwisko;
+                worker.prcImie = response[i].prcImie;
+
+                this.workers.push(worker);
                 // and then we redirect the user to the home
                 //this._router.navigate(['\Home']);
+
+            }
+
+
+
             });
-         
-    
+
+
 
   }
-  
+
   ngOnInit() {
     this.getSK();
   }
-  
+
 }

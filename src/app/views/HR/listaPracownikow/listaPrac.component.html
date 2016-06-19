@@ -3,8 +3,8 @@
 
      <div class="form-group">
          <label>Wybierz obiekt:</label>
-         <select class="form-control" required>
-             <option *ngFor="#s of skUseraList" [value]="s">{{s.skKod}}</option>
+         <select class="form-control" (change)="onChangeSK($event.target.value)" required>
+             <option *ngFor="#s of skUseraList" >{{s.skKod}}</option> <!-- [value]="s" -->
          </select>
      </div>
 
@@ -14,7 +14,7 @@
 
      <ul class="workers">
       <li *ngFor="#worker of workers">
-        <span class="badge">{{worker.prcId}}</span> {{worker.prcNazwisko}}
+        <span class="badge">{{worker.prcId}}</span> {{worker.prcNazwisko}} {{worker.prcImie}}
       </li>
     </ul>
 
