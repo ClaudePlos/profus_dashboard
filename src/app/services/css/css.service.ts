@@ -67,6 +67,20 @@ export class CssService {
 
     }
 
+    pobierzUsers() {
+        this._request = new Request({
+            method: "GET",
+            // change url to "./data/data.junk" to generate an error
+            url: this.mainUrl + '/users'
+        });
+
+        return this._http.request(this._request)
+            // modify file data.json to contain invalid JSON to have .json() raise an error
+            .map(res => res.json())  // could raise an error if invalid JSON
+            .do(data => console.log('server data:', data))  // debug
+            .catch(this._serverError);
+    }
+
 
 
 

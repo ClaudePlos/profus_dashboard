@@ -1,0 +1,33 @@
+ <!-- template -->
+ <dashboard-layout pageTitle="usersAdministration">
+
+     <div class="usersAdministration">
+
+     Lista Uzytkownikow <br>
+
+     <table class="table table-hover">
+         <thead>
+         <tr>
+             <th>uzID</th>
+             <th>Nazwa</th>
+             <th>Stanowisko</th>
+             <th>Aktywny</th>
+         </tr>
+         </thead>
+
+         <tbody>
+         <tr *ngFor="#user of users" (click)="onSelect(user)">
+             <td>{{user.uzId}}</td>
+             <td>{{user.uzNazwa}}</td>
+             <td>{{user.uzStanowisko}}</td>
+             <td>{{user.uzAktywny}}</td>
+         </tr>
+         </tbody>
+     </table>
+
+     </div>
+
+     <user-detail [user]="selectedUser"></user-detail>
+
+     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</dashboard-layout>

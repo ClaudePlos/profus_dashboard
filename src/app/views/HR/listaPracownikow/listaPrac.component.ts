@@ -6,6 +6,8 @@ import { DashboardLayoutComponent } from '../../../dashboard_layout/dashboard_la
 import { checkAuth } from '../../../auth_module/auth/check_auth';
 import { Auth, LoginDataInterface } from '../../../auth_module/auth/auth';
 import { List } from 'immutable';
+//inne
+import { ListaPracDetailComponent } from './listaPrac-detail.component';
 //services:
 import { HrService } from '../../../services/HR/hr.service';
 import { CssService } from '../../../services/css/css.service';
@@ -21,7 +23,7 @@ import { StanowiskoKosztow } from '../../../models/css/stanowiskoKosztow';
 
 @View({
   templateUrl: 'src/app/views/HR/listaPracownikow/listaPrac.component.html',
-  directives: [DashboardLayoutComponent, NgIf]
+  directives: [DashboardLayoutComponent, NgIf, ListaPracDetailComponent]
 })
 
 @CanActivate((next: ComponentInstruction, previous: ComponentInstruction) => {
@@ -29,12 +31,14 @@ import { StanowiskoKosztow } from '../../../models/css/stanowiskoKosztow';
 })
 
 export class ListaPracComponent implements OnInit {
+    abstract;
   public workers =  [{}];//Worker[];
   error: any;
   public loginData: LoginDataInterface
   public uprawnieniaUseraList: NuprUprawnienia[] =  [];
   public skUseraList: StanowiskoKosztow[] =  [];
   public selectedSK: StanowiskoKosztow;
+  private selectedWorker: Worker;
   
 
   constructor(private _router: Router, private _hrService: HrService, private _cssService: CssService, private _auth: Auth) {
@@ -81,6 +85,7 @@ export class ListaPracComponent implements OnInit {
             for (var i in response) {
                 let worker = new Worker();
                 worker.prcId = response[i].prcId;
+                worker.prcNumer = response[i].prcNumer;
                 worker.prcNazwisko = response[i].prcNazwisko;
                 worker.prcImie = response[i].prcImie;
 
@@ -98,7 +103,20 @@ export class ListaPracComponent implements OnInit {
 
   }
 
+  onSelect(worker: Worker) {
+      this.selectedWorker = worker;
+      console.log(this.selectedWorker.prcNazwisko);
+
+      $(document).ready(function(){
+          $("#myModal").modal();
+      });
+
+     // modal.alert();
+  }
+
   ngOnInit() {
+
+    this.selectedWorker = new Worker();
     this.getSK();
   }
 

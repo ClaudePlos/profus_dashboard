@@ -23,25 +23,7 @@ export class DashboardLayoutComponent {
     public pageTitle: String;
     public pageSubtitle: String;
     private current_url: string;
-    private links: Array<any> = [
-    {
-      "title": "Home",
-        "sublinks": [],
-    },
-    {
-      "title": "Sub menu",
-      "sublinks": [
-        {
-          "title": "Page 2",
-          "link": ['/page2'],
-        },
-        {
-          "title": "Page 3",
-          "link": ['/page3'],
-        }
-      ]
-    }
-  ];
+
 
 
     constructor(private _router: Router, private _auth: Auth) {
