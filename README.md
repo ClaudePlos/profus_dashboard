@@ -1,7 +1,6 @@
 # profus-dashboard
 dashboard 
-
-
+1. Aby było rozwijane menu dla przegladarki w src/assets/js podmieniłem katalog js z ng2-admin-lte-master
 
 ##Features
 
