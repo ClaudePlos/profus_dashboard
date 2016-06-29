@@ -6,8 +6,9 @@ import { DashboardLayoutComponent } from '../../../dashboard_layout/dashboard_la
 import { checkAuth } from '../../../auth_module/auth/check_auth';
 import { Auth, LoginDataInterface } from '../../../auth_module/auth/auth';
 //inne
-import { ListaPracBadaniaComponent } from './listaPrac-badania.component';
 import { ListaPracDetailComponent } from './listaPrac-detail.component';
+import { ListaPracBadaniaComponent } from './listaPrac-badania.component';
+import { ListaPracAdresyComponent } from './listaPrac-adresy.component';
 //services:
 import { HrService } from '../../../services/HR/hr.service';
 import { CssService } from '../../../services/css/css.service';
@@ -15,6 +16,7 @@ import { CssService } from '../../../services/css/css.service';
 import { Worker } from '../../../models/HR/worker';
 import { NuprUprawnienia } from '../../../models/nupr/NuprUprawnienia';
 import { StanowiskoKosztow } from '../../../models/css/stanowiskoKosztow';
+import { AdresDTO } from '../../../models/css/adresDTO';
 
 @Component({
   selector: 'listaPrac',
@@ -23,7 +25,7 @@ import { StanowiskoKosztow } from '../../../models/css/stanowiskoKosztow';
 
 @View({
   templateUrl: 'src/app/views/HR/listaPracownikow/listaPrac.component.html',
-  directives: [DashboardLayoutComponent, NgIf, ListaPracBadaniaComponent, ListaPracDetailComponent, ]
+  directives: [DashboardLayoutComponent, NgIf, ListaPracDetailComponent, ListaPracBadaniaComponent, ListaPracAdresyComponent ]
 })
 
 @CanActivate((next: ComponentInstruction, previous: ComponentInstruction) => {
@@ -31,7 +33,6 @@ import { StanowiskoKosztow } from '../../../models/css/stanowiskoKosztow';
 })
 
 export class ListaPracComponent implements OnInit {
-    abstract;
   public workers =  [{}];//Worker[];
   error: any;
   public loginData: LoginDataInterface;
@@ -39,7 +40,7 @@ export class ListaPracComponent implements OnInit {
   public skUseraList: StanowiskoKosztow[] =  [];
   public selectedSK: StanowiskoKosztow;
   private selectedWorker: Worker;
-  
+  public selPracAdresy: AdresDTO[] = [];
 
   constructor(private _router: Router, private _hrService: HrService, private _cssService: CssService, private _auth: Auth) {
      this.loginData = this._auth.loginData;
@@ -86,7 +87,7 @@ export class ListaPracComponent implements OnInit {
           this._hrService.getWorkersForSk( sk )
             .subscribe((response) => {
 
-            this.workers.length = 0
+            this.workers.length = 0;
 
             for (var i in response) {
                 let worker = new Worker();
@@ -101,9 +102,35 @@ export class ListaPracComponent implements OnInit {
 
             }
 
-
-
             });
+  }
+
+  getAdresyPracownika( prcId : number ){
+
+      /*let selPracAd: AdresDTO = new AdresDTO();
+      selPracAd.adrId = 12;
+      selPracAd.adrMiejscowosc = "asdasd";
+      this.selPracAdresy.push(selPracAd);*/
+
+      this._hrService.pobierzAdresyPracownika( this.selectedWorker.prcId ).subscribe((response) => {
+
+          this.selPracAdresy.length = 0;
+
+          for (var i in response) {
+
+              let adr: AdresDTO = new AdresDTO();
+              adr.adrId = response[i].adrId;
+              adr.adrPrcId = response[i].adrPrcId;
+              adr.adrKodPocztowy = response[i].adrKodPocztowy;
+              adr.adrTyp = response[i].adrTyp;
+              adr.adrMiejscowosc = response[i].adrMiejscowosc;
+              adr.adrUlica = response[i].adrUlica;
+              this.selPracAdresy.push(adr);
+          }
+
+
+
+      });
 
 
 
@@ -123,14 +150,7 @@ export class ListaPracComponent implements OnInit {
      // modal.alert();
   }
 
-    onSelectBadania(worker: Worker){
-        this.selectedWorker = worker;
-        console.log('Badania:' + this.selectedWorker.prcNazwisko);
 
-        $(document).ready(function(){
-            $("#myBadania").modal();
-        });
-    }
 
     onSelectDodInfo(worker: Worker){
         this.selectedWorker = worker;
@@ -140,6 +160,28 @@ export class ListaPracComponent implements OnInit {
             $("#myModal").modal();
         });
 
+    }
+
+    onSelectAdresy(worker: Worker){
+        this.selectedWorker = worker;
+        console.log('Adresy:' + this.selectedWorker.prcNazwisko);
+
+        this.getAdresyPracownika( this.selectedWorker.prcId );
+
+        $(document).ready(function(){
+            $("#myModalAdresy").modal();
+        });
+
+
+    }
+
+    onSelectBadania(worker: Worker){
+        this.selectedWorker = worker;
+        console.log('Badania:' + this.selectedWorker.prcNazwisko);
+
+        $(document).ready(function(){
+            $("#myModalBadania").modal();
+        });
     }
 
 

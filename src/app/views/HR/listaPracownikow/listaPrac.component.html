@@ -43,6 +43,7 @@
                  <th>Nazwisko</th>
                  <th>T1</th>
                  <th>T2</th>
+                 <th>T3</th>
              </tr>
              </thead>
              <!--(click)="onSelect(worker)" -->
@@ -52,6 +53,7 @@
                  <td>{{worker.prcNazwisko}}</td>
                  <td>{{worker.prcImie}}</td>
                  <td><button (click)="onSelectDodInfo(worker)">Dod.Info</button></td>
+                 <td><button (click)="onSelectAdresy(worker)">Adresy</button></td>
                  <td><button (click)="onSelectBadania(worker)">Badania</button></td>
              </tr>
              </tbody>
@@ -66,10 +68,11 @@
          </div>
      </div>
   -->
+     <worker-detail [worker]="selectedWorker"></worker-detail> <!-- infoPrac -->
 
      <worker-badania [worker]="selectedWorker"></worker-badania>
 
-     <worker-detail [worker]="selectedWorker"></worker-detail>
+     <worker-adresy [worker]="selectedWorker" [adresy]="selPracAdresy"></worker-adresy>
 
 
 

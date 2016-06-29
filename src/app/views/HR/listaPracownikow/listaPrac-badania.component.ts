@@ -11,7 +11,7 @@ import { Worker } from '../../../models/HR/worker';
     <p></p>
 
      <!-- Modal -->
-             <div *ngIf="worker" class="modal fade" id="myBadania" role="dialog">
+             <div *ngIf="worker" class="modal fade" id="myModalBadania" role="dialog">
                  <div class="modal-dialog">
 
                      <!-- Modal content-->
