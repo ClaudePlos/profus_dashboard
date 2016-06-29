@@ -48,6 +48,13 @@ export class UsersAdministrationComponent implements OnInit {
         uz.uzHaslo = response[i].uzHaslo;
         uz.uzStanowisko = response[i].uzStanowisko;
         uz.uzAktywny = response[i].uzAktywny;
+
+        uz.uzAktywnyB = true;
+
+        if ( response[i].uzAktywny == 'N' )
+          uz.uzAktywnyB = false;
+
+
         this.users.push(uz);
       }
 

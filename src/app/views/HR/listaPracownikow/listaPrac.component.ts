@@ -5,8 +5,8 @@ import { CORE_DIRECTIVES, NgIf } from 'angular2/common';
 import { DashboardLayoutComponent } from '../../../dashboard_layout/dashboard_layout.component';
 import { checkAuth } from '../../../auth_module/auth/check_auth';
 import { Auth, LoginDataInterface } from '../../../auth_module/auth/auth';
-import { List } from 'immutable';
 //inne
+import { ListaPracBadaniaComponent } from './listaPrac-badania.component';
 import { ListaPracDetailComponent } from './listaPrac-detail.component';
 //services:
 import { HrService } from '../../../services/HR/hr.service';
@@ -23,7 +23,7 @@ import { StanowiskoKosztow } from '../../../models/css/stanowiskoKosztow';
 
 @View({
   templateUrl: 'src/app/views/HR/listaPracownikow/listaPrac.component.html',
-  directives: [DashboardLayoutComponent, NgIf, ListaPracDetailComponent]
+  directives: [DashboardLayoutComponent, NgIf, ListaPracBadaniaComponent, ListaPracDetailComponent, ]
 })
 
 @CanActivate((next: ComponentInstruction, previous: ComponentInstruction) => {
@@ -34,7 +34,7 @@ export class ListaPracComponent implements OnInit {
     abstract;
   public workers =  [{}];//Worker[];
   error: any;
-  public loginData: LoginDataInterface
+  public loginData: LoginDataInterface;
   public uprawnieniaUseraList: NuprUprawnienia[] =  [];
   public skUseraList: StanowiskoKosztow[] =  [];
   public selectedSK: StanowiskoKosztow;
@@ -52,6 +52,12 @@ export class ListaPracComponent implements OnInit {
 
           if ( this.uprawnieniaUseraList[i].uprawnienieDo == NuprUprawnienia.HR_KADROWE  ){
              this._cssService.pobierzSKdlaUsera( this.uprawnieniaUseraList[i].uzId, NuprUprawnienia.HR_KADROWE ).subscribe((response) => {
+
+                 let skAll:StanowiskoKosztow = new StanowiskoKosztow();
+                 skAll.skId = 0;
+                 skAll.skKod = "WSZYSCY";
+                 this.skUseraList.push(skAll);
+
                  for (var i in response) {
 
                      let sk:StanowiskoKosztow = new StanowiskoKosztow();
@@ -111,10 +117,33 @@ export class ListaPracComponent implements OnInit {
           $("#myModal").modal();
       });
 
+      //let index = this.workers.indexOf(worker);
+      //this.workers.splice(index,1); //splice usuwa a push dodaje
+
      // modal.alert();
   }
 
-  ngOnInit() {
+    onSelectBadania(worker: Worker){
+        this.selectedWorker = worker;
+        console.log('Badania:' + this.selectedWorker.prcNazwisko);
+
+        $(document).ready(function(){
+            $("#myBadania").modal();
+        });
+    }
+
+    onSelectDodInfo(worker: Worker){
+        this.selectedWorker = worker;
+        console.log('Info:' + this.selectedWorker.prcNazwisko);
+
+        $(document).ready(function(){
+            $("#myModal").modal();
+        });
+
+    }
+
+
+    ngOnInit() {
 
     this.selectedWorker = new Worker();
     this.getSK();

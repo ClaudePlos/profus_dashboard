@@ -33,7 +33,7 @@
 
      <br>
 
-     <worker-detail [worker]="selectedWorker"></worker-detail>
+
 
          <table class="table table-hover">
              <thead>
@@ -41,18 +41,37 @@
                  <th>Prc Numer</th>
                  <th>Imie</th>
                  <th>Nazwisko</th>
+                 <th>T1</th>
+                 <th>T2</th>
              </tr>
              </thead>
-
+             <!--(click)="onSelect(worker)" -->
              <tbody>
-             <tr *ngFor="#worker of workers" (click)="onSelect(worker)">
+             <tr *ngFor="#worker of workers"  >
                  <td>{{worker.prcNumer}}</td>
                  <td>{{worker.prcNazwisko}}</td>
                  <td>{{worker.prcImie}}</td>
+                 <td><button (click)="onSelectDodInfo(worker)">Dod.Info</button></td>
+                 <td><button (click)="onSelectBadania(worker)">Badania</button></td>
              </tr>
              </tbody>
          </table>
      </div>
+
+   <!--
+     <div [ngGrid]="{'resizeable': false, 'margins': [5, 10]}">
+         <div *ngFor="#worker of workers" [(ngGridItem)]="worker.config">
+             <div class="title">{{worker.prcNumer}}</div>
+             <p>{{worker.prcNazwisko}}</p>
+         </div>
+     </div>
+  -->
+
+     <worker-badania [worker]="selectedWorker"></worker-badania>
+
+     <worker-detail [worker]="selectedWorker"></worker-detail>
+
+
 
      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 </dashboard-layout>

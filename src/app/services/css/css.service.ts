@@ -81,6 +81,25 @@ export class CssService {
             .catch(this._serverError);
     }
 
+    pobierzZadaniaUzytkownika( uzId : number ) {
+
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('uzId', uzId.toString() );
+
+        this._request = new Request({
+            method: "GET",
+            // change url to "./data/data.junk" to generate an error
+            url: this.mainUrl + '/nupruprawnieniesk/listZadaniaUzytkownika',
+            search: params
+        });
+
+        return this._http.request(this._request)
+            // modify file data.json to contain invalid JSON to have .json() raise an error
+            .map(res => res.json())  // could raise an error if invalid JSON
+            .do(data => console.log('server data:', data))  // debug
+            .catch(this._serverError);
+    }
+
 
 
 

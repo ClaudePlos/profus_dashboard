@@ -2,5 +2,25 @@
  <dashboard-layout pageTitle="Home">
      <div class="home">
        Zadania - test (TODO)
+
+         <table class="table table-hover">
+             <thead>
+             <tr>
+                 <th>Tytul</th>
+                 <th>ilosc</th>
+                 <th>typZadania</th>
+             </tr>
+             </thead>
+
+             <tbody>
+             <tr *ngFor="#zadanie of zadaniaList" (click)="onSelect(zadanie)">
+                 <td>{{zadanie.tytulZadania}}</td>
+                 <td>{{zadanie.iloscZadan}}</td>
+                 <td>{{zadanie.kodTypuZadania}}</td>
+             </tr>
+             </tbody>
+         </table>
+
      </div>
+
 </dashboard-layout>

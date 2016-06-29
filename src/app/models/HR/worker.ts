@@ -3,4 +3,5 @@ export class Worker {
   prcNumer: number;
   prcNazwisko: string;
   prcImie: string;
+  
 }

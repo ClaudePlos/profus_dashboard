@@ -8,4 +8,5 @@ export class User {
     uzStanowisko: number;
     uzHaslo: string;
     uzAktywny: string;
+    uzAktywnyB : boolean;
 }
